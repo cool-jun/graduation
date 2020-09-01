@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.OutboundMapper">
+    <insert id="addOutboundInfo" parameterType="Outbound">
+        insert into outbound(buyer, productName, productSpec, sell_price, quantity, cost, salesclerk, outbound_time)
+        VALUES (#{buyer}, #{productName}, #{productSpec}, #{sell_price}, #{quantity}, #{cost}, #{salesclerk}, #{outbound_time})
+    </insert>
+
+    <select id="getAllOutboundList" resultType="Outbound">
+        select outbound_id, buyer, productName, productSpec, sell_price, quantity, cost, salesclerk,
+               outbound_time from outbound
+        <where>
+            <if test="outbound_keyword != null and outbound_keyword != ''">
+                and CONCAT(buyer, salesclerk, productName, productSpec) like CONCAT('%',#{outbound_keyword},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

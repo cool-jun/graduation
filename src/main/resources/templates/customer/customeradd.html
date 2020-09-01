@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>净水器售后管理系统</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/css/nprogress.css}" rel="stylesheet">
+    <!-- iCheck -->
+    <link th:href="@{/css/green.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="clearfix"></div>
+
+                <br/>
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <div class="text-center">
+                            <h2 style="margin-left: 25px">净水器售后管理系统</h2>
+                        </div>
+                        <ul style="margin-left: 20px" class="nav side-menu">
+                            <li><a><i class="fa fa-home"></i> 客户管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="toaddcustomer">信息录入</a></li>
+                                    <li><a href="customerinfolist">信息统计/查询/修改</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-edit"></i> 售后管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="repairhandle">报修处理</a></li>
+                                    <li><a href="#">反馈处理</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-desktop"></i> 销售管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="tosaleadd">添加销售记录</a></li>
+                                    <li><a href="saleinfolist">销售记录修改/查询</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> 产品管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="toaddproduct">信息录入</a></li>
+                                    <li><a href="productinfolist">信息统计/查询/修改</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-bar-chart-o"></i> 库存管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="inboundinfolist">入库管理</a></li>
+                                    <li><a href="outboundlist">出库管理</a></li>
+                                    <li><a href="stocklist">库存盘点</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-clone"></i> 财务管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="incomedetails">收入明细</a></li>
+                                    <li><a href="expensedetails">支出明细</a></li>
+                                    <li><a href="listgrossprofit">毛利统计</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-sitemap"></i> 报表管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="listsalereport">销售报表</a></li>
+                                    <li><a href="#">反馈报表</a></li>
+                                    <li><a href="#">报修报表</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /sidebar menu -->
+
+                <!-- /menu footer buttons -->
+                <div class="sidebar-footer hidden-small">
+                    <h2 style="margin-left: 25px">净水器售后管理系统</h2>
+                </div>
+                <!-- /menu footer buttons -->
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+                <nav class="nav navbar-nav">
+                    <ul class=" navbar-right">
+                        <li class="nav-item dropdown open" style="padding-left: 15px;">
+                            <a href="javascript:" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown"
+                               data-toggle="dropdown" aria-expanded="false">
+                                <span th:text="${session.admin.name}" th:if="${not #strings.isEmpty(session.admin.name)}"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"  href="adminlogout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>客户管理  <small>信息录入</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <form class="form-horizontal form-label-left" th:action="@{/customerinfoadd}" th:method="post">
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="customer_name">
+                                            姓名 <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" name="customer_name" id="customer_name" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="telephone">
+                                            电话 <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="telephone" name="telephone" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="address" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            地址 <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="address" class="form-control" type="text" name="address" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="area" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            区域/小区 <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="area" class="form-control" type="text" name="area" required="required">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="sale_type" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            销售分类 <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select name="sale_type" id="sale_type" class="form-control">
+                                                <option value="">--请选择--</option>
+                                                <option>商超</option>
+                                                <option>网购</option>
+                                                <option>门购</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="service_status">
+                                            服务状态 <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select name="service_status" id="service_status" class="form-control">
+                                                <option value="">--请选择--</option>
+                                                <option>已服务</option>
+                                                <option>未服务</option>
+                                                <option>服务中</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="sponsor">
+                                            介绍人 <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="sponsor" name="sponsor" required="required" class="form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button class="btn btn-primary" type="reset">重置</button>
+                                            <button type="submit" class="btn btn-success">保存</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /page content -->
+
+        <!--footer-->
+
+        <!--/footer-->
+    </div>
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{js/fastclick.js}"></script>
+<!-- NProgress -->
+<script th:src="@{/js/nprogress.js}"></script>
+<!-- iCheck -->
+<script th:src="@{/js/icheck.min.js}"></script>
+
+<!-- Custom Theme Scripts -->
+<script th:src="@{/js/custom.min.js}"></script>
+</body>
+</html>

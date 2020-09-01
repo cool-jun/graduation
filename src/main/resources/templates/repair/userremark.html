@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>净水器售后管理系统</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/css/nprogress.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/css/custom.min.css}" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+
+                <div class="clearfix"></div>
+
+                <br/>
+
+                <!-- sidebar menu -->
+                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                    <div class="menu_section">
+                        <div class="text-center">
+                            <h2 style="margin-left: 25px">净水器售后服务平台</h2>
+                        </div>
+                        <ul style="margin-left: 20px" class="nav side-menu">
+                            <li><a><i class="fa fa-home"></i> 个人信息 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="userinfo">查看/修改信息</a></li>
+                                    <li><a href="tomodifyuserpwd">修改密码</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-desktop"></i> 购买管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="purchasehistory">购买记录</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-table"></i> 报修管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="toaddrepair">点击报修</a></li>
+                                    <li><a href="userrepairlist">报修记录</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-clone"></i> 投诉反馈 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="toaddfeedback">点击投诉</a></li>
+                                    <li><a href="#">投诉记录</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- /sidebar menu -->
+
+                <!-- /menu footer buttons -->
+                <div class="sidebar-footer hidden-small">
+                    <h2 style="margin-left: 25px">净水器售后管理系统</h2>
+                </div>
+                <!-- /menu footer buttons -->
+            </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+            <div class="nav_menu">
+                <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+                <nav class="nav navbar-nav">
+                    <ul class="navbar-right">
+                        <li class="nav-item dropdown open" style="padding-left: 15px;">
+                            <a href="javascript:" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown"
+                               data-toggle="dropdown" aria-expanded="false">
+                                <span th:text="${session.user.username}" th:if="${not #strings.isEmpty(session.user.username)}"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"  href="userlogout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="clearfix"></div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 ">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>报修管理  <small>客户评价</small></h2>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+                                <form class="form-horizontal form-label-left" th:action="@{/updateuserremark}" th:method="post"
+                                      onsubmit="check_submit()">
+                                    <input type="hidden" name="repair_id" th:value="${repair.repair_id}">
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="cName">
+                                            报修人
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="cName" readonly class="form-control" th:value="${repair.cName}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="cTelephone">
+                                            联系电话
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="cTelephone" readonly class="form-control" th:value="${repair.cTelephone}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="saleNumber" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            销售单号
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="saleNumber" class="form-control" type="text" readonly th:value="${repair.saleNumber}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="content" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            报修内容
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <textarea id="content" class="form-control" readonly th:text="${repair.content}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="cTime" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            报修时间
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="cTime" class="form-control" readonly type="text" th:value="${repair.cTime}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="repairState" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            维修状态
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="repairState" class="form-control" readonly type="text" th:value="${repair.repairState}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="repairName" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            维修人
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="repairName" class="form-control" readonly type="text" th:value="${repair.repairName}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="repairTime" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            维修时间
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="repairTime" class="form-control" readonly type="text" th:value="${repair.repairTime}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="repairMoney" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            维修费用
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="repairMoney" class="form-control" readonly type="text" th:value="${repair.repairMoney}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="auditName" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            审核人
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="auditName" class="form-control" readonly type="text" th:value="${repair.auditName}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="auditTime" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            审核时间
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="auditTime" class="form-control" readonly type="text" th:value="${repair.auditTime}">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label for="cRemark" class="col-form-label col-md-3 col-sm-3 label-align">
+                                            评价
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <textarea id="cRemark" class="form-control" name="cRemark" th:text="${repair.cRemark}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button class="btn btn-primary" type="reset">重置</button>
+                                            <button class="btn btn-success" type="submit">提交</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /page content -->
+    </div>
+</div>
+
+
+<!-- jQuery -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{js/fastclick.js}"></script>
+<!-- NProgress -->
+<script th:src="@{/js/nprogress.js}"></script>
+
+<!-- Custom Theme Scripts -->
+<script th:src="@{/js/custom.min.js}"></script>
+
+<script th:src="@{/localjs/checksubmit.js}"></script>
+</body>
+</html>
+
+
+
+

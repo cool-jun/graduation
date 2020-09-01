@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.UserLoginMapper">
+    <insert id="addUserLogin" parameterType="UserLogin">
+        insert into userlogin(username, password, telephone) values (#{username}, #{password}, #{telephone})
+    </insert>
+
+    <select id="getUserByNameAndPwd" resultType="UserLogin">
+        select user_id, username, password, telephone from userlogin where username = #{username} and password = #{password}
+    </select>
+
+    <update id="modifyPwd">
+        update userlogin set password = #{password} where user_id = #{user_id}
+    </update>
+
+    <update id="modifyUser" parameterType="UserLogin">
+        update userlogin
+        <trim prefix="set" suffixOverrides="," suffix="where user_id = #{user_id}">
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone},
+            </if>
+        </trim>
+    </update>
+</mapper>

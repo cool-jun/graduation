@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.GrossProfitMapper">
+    <select id="listAllGrossProfit" resultType="GrossProfit">
+        select product_name as name, product_spec as spec,
+               (select purchase_price from product where product.product_name = sale.product_name and product.product_spec = sale.product_spec) as costs,
+               (select sale_price from product where product.product_name = sale.product_name and product.product_spec = sale.product_spec) as price,
+               sum(number) as quantity from sale
+        <where>
+            <if test="profit_word != null and profit_word != ''">
+                and CONCAT(product_name, product_spec) like CONCAT('%',#{profit_word},'%')
+            </if>
+        </where>
+        group by product_name, product_spec
+    </select>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.CustomerMapper">
+    <select id="getAllCustomerList" resultType="Customer">
+        select customer_id, customer_name, telephone, address, area, sale_type, service_status, sponsor
+        from customer
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="customer_name != null and customer_name != ''">
+                and customer_name like CONCAT ('%',#{customer_name},'%')
+            </if>
+            <if test="telephone != null and telephone != ''">
+                and telephone like CONCAT ('%',#{telephone},'%')
+            </if>
+            <if test="area != null and area != ''">
+                and area like CONCAT ('%',#{area},'%')
+            </if>
+        </trim>
+        order by customer_id desc
+    </select>
+
+    <select id="getCustomerById" resultType="Customer">
+        select customer_id, customer_name, telephone, address, area, sale_type, service_status, sponsor
+        from customer where customer_id = #{customer_id}
+    </select>
+
+    <select id="getCustomerByTelephone" resultType="Customer">
+        select customer_id, customer_name, telephone, address, area, sale_type, service_status, sponsor
+        from customer where telephone = #{telephone}
+    </select>
+
+    <insert id="addCustomerInfo" parameterType="Customer">
+        insert into customer(customer_name, telephone, address, area, sale_type, service_status, sponsor)
+        values(#{customer_name}, #{telephone}, #{address}, #{area}, #{sale_type}, #{service_status}, #{sponsor})
+    </insert>
+
+    <delete id="deleteCustomerById" parameterType="Integer">
+        delete from customer where customer_id = #{customer_id}
+    </delete>
+
+    <select id="showCustomerById" resultType="Customer">
+        select customer_id, customer_name, telephone, address, area, sale_type, service_status, sponsor
+        from customer where customer_id = #{customer_id}
+    </select>
+
+    <update id="modifyCustomer" parameterType="Customer">
+        update customer
+        <trim prefix="set" suffixOverrides="," suffix="where customer_id = #{customer_id}">
+            <if test="customer_name != null and customer_name != ''">
+                customer_name = #{customer_name},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="sale_type != null and sale_type != ''">
+                sale_type = #{sale_type},
+            </if>
+            <if test="service_status != null and service_status != ''">
+                service_status = #{service_status},
+            </if>
+            <if test="sponsor != null and sponsor != ''">
+                sponsor = #{sponsor},
+            </if>
+        </trim>
+    </update>
+</mapper>

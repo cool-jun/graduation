@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.ProductMapper">
+    <select id="getAllProductList" resultType="Product">
+        select product_id, product_type, product_detail, product_brand, product_name, product_spec,
+               product_factory, sale_price, purchase_price
+        from product
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="product_name != null and product_name != ''">
+                and product_name like CONCAT ('%',#{product_name},'%')
+            </if>
+            <if test="product_type != null and product_type != ''">
+                and product_type = #{product_type}
+            </if>
+            <if test="product_brand != null and product_brand != ''">
+                and product_brand = #{product_brand}
+            </if>
+        </trim>
+        order by product_id desc
+    </select>
+
+    <insert id="addProductInfo" parameterType="Product">
+        insert into product(product_type, product_detail, product_brand, product_name, product_spec, product_factory,
+                            sale_price, purchase_price)
+        values (#{product_type}, #{product_detail}, #{product_brand}, #{product_name}, #{product_spec},
+                #{product_factory}, #{sale_price}, #{purchase_price})
+    </insert>
+
+    <delete id="deleteProductById" parameterType="Integer">
+        delete from product where product_id = #{product_id}
+    </delete>
+
+    <select id="showProductById" resultType="Product">
+        select product_id, product_type, product_detail, product_brand, product_name, product_spec,
+               product_factory, sale_price, purchase_price
+        from product where product_id = #{product_id}
+    </select>
+
+    <select id="getProductById" resultType="Product">
+        select product_id, product_type, product_detail, product_brand, product_name, product_spec,
+               product_factory, sale_price, purchase_price
+        from product where product_id = #{product_id};
+    </select>
+
+    <select id="getProductNameList" resultType="Product">
+        select product_name from product
+    </select>
+
+    <select id="getProductSpecList" resultType="Product">
+        select product_spec from product where product_name = #{product_name}
+    </select>
+
+    <select id="getPriceByProduct" resultType="DECIMAL">
+        select sale_price from product where product_name = #{product_name} and product_spec = #{product_spec}
+    </select>
+
+    <update id="modifyProduct" parameterType="Product">
+        update product
+        <trim prefix="set" suffixOverrides="," suffix="where product_id = #{product_id}">
+            <if test="product_name != null and product_name != ''">
+                product_name = #{product_name},
+            </if>
+            <if test="product_type != null and product_type != ''">
+                product_type = #{product_type},
+            </if>
+            <if test="product_brand != null and product_brand != ''">
+                product_brand = #{product_brand},
+            </if>
+            <if test="product_spec != null and product_spec != ''">
+                product_spec = #{product_spec},
+            </if>
+            <if test="product_factory != null and product_factory != ''">
+                product_factory = #{product_factory},
+            </if>
+            <if test="sale_price != null and sale_price != ''">
+                sale_price = #{sale_price},
+            </if>
+            <if test="purchase_price != null and purchase_price != ''">
+                purchase_price = #{purchase_price},
+            </if>
+            <if test="product_detail != null">
+                product_detail = #{product_detail},
+            </if>
+        </trim>
+    </update>
+</mapper>

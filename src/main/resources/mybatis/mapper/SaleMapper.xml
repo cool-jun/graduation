@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.SaleMapper">
+    <select id="getPurchaseListByTelephone" resultType="Sale">
+        select sale_id, customer_name, telephone, address, sale_number, product_name, product_spec, price, money,
+               number, sale_date
+        from sale
+        <where>
+            <if test="purchase_keyword != null and purchase_keyword != ''">
+                and CONCAT(customer_name, telephone, address, sale_number, product_name, product_spec, price,
+                money, sale_date) like CONCAT('%',#{purchase_keyword},'%')
+            </if>
+            <if test="telephone != ''">
+                and telephone = #{telephone}
+            </if>
+        </where>
+        order by sale_date desc
+    </select>
+
+    <select id="getAllSaleList" resultType="Sale">
+        select sale_id, customer_name, telephone, address, sale_number, area, product_name, product_spec, sale_type,
+               price, money, sale.number, sale_person, service_status, sponsor, sale_date
+        from sale
+        <where>
+            <if test="keywords != null and keywords != ''">
+                and CONCAT(customer_name, telephone, address, sale_number, area, product_name, product_spec, sale_type,
+                sale_person, sponsor, sale_date) like CONCAT('%',#{keywords},'%')
+            </if>
+        </where>
+        order by sale_date desc
+    </select>
+
+    <select id="getAllSaleReportList" resultType="SaleReport">
+        select customer_name as c, telephone as tel, area as area, product_name as p_name, product_spec as p_spec,
+               sale_type as s_type, price as price, number as amount, price*number as total, sale_person as s_person, sale_date as s_date
+        from sale
+        <where>
+            <if test="saleReportWords != null and saleReportWords != ''">
+                and CONCAT(customer_name, area, product_name, product_spec, sale_type,
+                sale_person, sale_date) like CONCAT('%',#{saleReportWords},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getAllSaleReportExcel" resultType="SaleReport">
+        select customer_name as c, telephone as tel, area as area, product_name as p_name, product_spec as p_spec,
+        sale_type as s_type, price as price, number as amount, price*number as total, sale_person as s_person, sale_date as s_date
+        from sale
+        <where>
+            <if test="saleReportExcel != null and saleReportExcel != ''">
+                and CONCAT(customer_name, area, product_name, product_spec, sale_type,
+                sale_person, sale_date) like CONCAT('%',#{saleReportExcel},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="addSaleInfo" parameterType="Sale">
+        insert into sale(customer_name, telephone, address, sale_number, area, product_name, product_spec, sale_type,
+                         price, money, number, sale_person, service_status, sponsor, sale_date)
+        values (#{customer_name}, #{telephone}, #{address}, #{sale_number}, #{area}, #{product_name}, #{product_spec},
+                #{sale_type}, #{price}, #{money}, #{number}, #{sale_person}, #{service_status}, #{sponsor}, #{sale_date})
+    </insert>
+
+    <select id="getSaleById" resultType="Sale" parameterType="Integer">
+        select sale_id, customer_name, telephone, address, area, sale_type, service_status, sponsor, sale.product_name,
+               sale.product_spec, price, sale.number, sale_date, sale_person, sale_number, money
+        from sale where sale_id = #{sale_id}
+    </select>
+
+    <delete id="deleteSaleById" parameterType="Integer">
+        delete from sale where sale_id = #{sale_id}
+    </delete>
+
+    <update id="modifySale" parameterType="Sale">
+        update sale
+        <trim prefix="set" suffixOverrides="," suffix="where sale_id = #{sale_id}">
+            <if test="customer_name != null and customer_name != ''">
+                customer_name = #{customer_name},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="sale_type != null and sale_type != ''">
+                sale_type = #{sale_type},
+            </if>
+            <if test="service_status != null and service_status != ''">
+                service_status = #{service_status},
+            </if>
+            <if test="sponsor != null and sponsor != ''">
+                sponsor = #{sponsor},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="money != null and money != ''">
+                money = #{money},
+            </if>
+            <if test="sale_person != null and sale_person != ''">
+                sale_person = #{sale_person},
+            </if>
+            <if test="number != null and number != ''">
+                number = #{number},
+            </if>
+            <if test="sale_date != null and sale_date != ''">
+                sale_date = #{sale_date},
+            </if>
+            <if test="product_name != null and product_name != ''">
+                product_name = #{product_name},
+            </if>
+            <if test="product_spec != null and product_spec != ''">
+                product_spec = #{product_spec},
+            </if>
+        </trim>
+    </update>
+</mapper>

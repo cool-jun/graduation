@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.StockCheckMapper">
+    <insert id="addStockCheckInfo" parameterType="StockCheck">
+        insert into stock_check(commodity_name, commodity_spec) values (#{commodity_name}, #{commodity_spec})
+    </insert>
+
+    <update id="addCurrentStock" parameterType="StockCheck">
+        update stock_check
+        <trim prefix="set" suffixOverrides="," suffix="where commodity_name = #{commodity_name} and commodity_spec = #{commodity_spec}">
+            <if test="current_stock != null">
+                current_stock = current_stock + #{current_stock},
+            </if>
+        </trim>
+    </update>
+
+    <update id="loseCurrentStock" parameterType="StockCheck">
+        update stock_check
+        <trim prefix="set" suffixOverrides="," suffix="where commodity_name = #{commodity_name} and commodity_spec = #{commodity_spec}">
+            <if test="current_stock != null">
+                current_stock = current_stock - #{current_stock},
+            </if>
+        </trim>
+    </update>
+
+    <select id="getAllStockCheckList" resultType="StockCheck">
+        select stock_id, commodity_name, commodity_spec, current_stock from stock_check
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and CONCAT(commodity_name, commodity_spec) like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

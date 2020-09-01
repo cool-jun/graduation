@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hj.aftersaleservice.dao.IncomeExpensesMapper">
+    <select id="listIncomeDetails" resultType="IncomeExpenses">
+        select buyer as transactionPerson, cost as credit, salesclerk as transactor, outbound_time as transactionDate
+        from outbound
+        <where>
+            <if test="income_word != null and income_word != ''">
+                and CONCAT(buyer, productName, productSpec, salesclerk) like CONCAT('%',#{income_word},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="listExpenseDetails" resultType="IncomeExpenses">
+        select counterpart as transactionPerson, cargo_value as debit, operator as transactor,
+               inbound_time as transactionDate from inbound
+        <where>
+            <if test="expense_word != null and expense_word != ''">
+                and CONCAT(counterpart, product_name, product_spec, operator) like CONCAT('%',#{expense_word},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
