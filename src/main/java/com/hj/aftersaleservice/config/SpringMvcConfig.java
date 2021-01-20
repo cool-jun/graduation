@@ -25,8 +25,8 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         registry.addViewController("/adminlogin.html").setViewName("adminlogin");
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns(EXCLUDE_PATH);
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns(EXCLUDE_PATH);
+    }
 }
